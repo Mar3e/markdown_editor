@@ -1,5 +1,6 @@
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:markdown_editor/utils/colors.dart';
+import 'package:markdown_editor/widgets/files_view.dart';
 import 'package:markdown_editor/widgets/main_header.dart';
 import 'package:markdown_editor/widgets/note_view.dart';
 import 'package:window_manager/window_manager.dart';
@@ -31,24 +32,18 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Markdown Editor',
       theme: FluentThemeData().copyWith(
-        scaffoldBackgroundColor: AppColors.secondaryColor,
+        scaffoldBackgroundColor: Colors.white,
         iconTheme: const IconThemeData().copyWith(
           color: AppColors.accentColor,
         ),
       ),
-      home: ScaffoldPage(
+      home: const ScaffoldPage(
           padding: EdgeInsets.zero,
-          header: const MainHeader(),
+          header: MainHeader(),
           content: Row(
             children: [
-              Expanded(
-                child: Container(
-                  color: Colors.blue,
-                  height: double.infinity,
-                  child: const Text('text'),
-                ),
-              ),
-              const NoteView()
+              FilesView(),
+              NoteView(),
             ],
           )),
     );
