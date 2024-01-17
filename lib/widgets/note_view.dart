@@ -1,6 +1,8 @@
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:markdown_editor/utils/colors.dart';
+import 'package:markdown_editor/data/dummy_data.dart';
+import 'package:markdown_editor/models/note.dart';
+import 'package:markdown_editor/core/utils/colors.dart';
 
 class NoteView extends StatefulWidget {
   const NoteView({
@@ -15,11 +17,18 @@ class _NoteViewState extends State<NoteView> {
   TextEditingController textController = TextEditingController();
 
   @override
+  void initState() {
+    textController.text = currentNote.content;
+    super.initState();
+  }
+
+  @override
   void dispose() {
     textController.dispose();
     super.dispose();
   }
 
+  Note currentNote = dummyNotes[0];
   bool showView = false;
 
   @override
@@ -52,7 +61,7 @@ class _NoteViewState extends State<NoteView> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('Note Title'),
+                  Text(currentNote.title),
                   ToggleButton(
                     checked: showView,
                     onChanged: (newValue) => setState(() {
