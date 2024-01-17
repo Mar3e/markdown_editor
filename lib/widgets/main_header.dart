@@ -1,5 +1,7 @@
 import 'package:fluent_ui/fluent_ui.dart';
-import 'package:markdown_editor/utils/colors.dart';
+import 'package:markdown_editor/core/services/local_file_manager.dart';
+import 'package:markdown_editor/core/utils/colors.dart';
+import 'package:markdown_editor/core/utils/infos.dart';
 
 class MainHeader extends StatelessWidget {
   const MainHeader({
@@ -38,7 +40,11 @@ class MainHeader extends StatelessWidget {
                 FluentIcons.add_medium,
                 size: 24.0,
               ),
-              onPressed: () {},
+              onPressed: () async {
+                print(await Info.showTextDialog(context));
+                final fileManager = LocalFileManger();
+                fileManager.createFile("testing_file");
+              },
             ),
           ],
         ),

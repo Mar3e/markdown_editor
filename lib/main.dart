@@ -1,5 +1,6 @@
 import 'package:fluent_ui/fluent_ui.dart';
-import 'package:markdown_editor/utils/colors.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:markdown_editor/core/utils/colors.dart';
 import 'package:markdown_editor/widgets/files_view.dart';
 import 'package:markdown_editor/widgets/main_header.dart';
 import 'package:markdown_editor/widgets/note_view.dart';
@@ -20,7 +21,7 @@ void main(List<String> args) async {
     await windowManager.focus();
   });
 
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
