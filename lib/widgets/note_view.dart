@@ -1,26 +1,22 @@
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:markdown_editor/data/dummy_data.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:markdown_editor/core/providers/note_provider.dart';
 import 'package:markdown_editor/models/note.dart';
 import 'package:markdown_editor/core/utils/colors.dart';
 
-class NoteView extends StatefulWidget {
+class NoteView extends ConsumerStatefulWidget {
   const NoteView({
     super.key,
   });
 
   @override
-  State<NoteView> createState() => _NoteViewState();
+  ConsumerState<NoteView> createState() => _NoteViewState();
 }
 
-class _NoteViewState extends State<NoteView> {
+class _NoteViewState extends ConsumerState<NoteView> {
   TextEditingController textController = TextEditingController();
-
-  @override
-  void initState() {
-    textController.text = currentNote.content;
-    super.initState();
-  }
 
   @override
   void dispose() {
@@ -28,13 +24,17 @@ class _NoteViewState extends State<NoteView> {
     super.dispose();
   }
 
-  Note currentNote = dummyNotes[0];
   bool showView = false;
 
   @override
   Widget build(BuildContext context) {
+    Note currentNote = ref.watch(noteProvider);
+    textController.text = currentNote.content;
+
     Widget mainContent = TextBox(
       controller: textController,
+      onChanged: (value) =>
+          ref.read(noteProvider.notifier).writeOnFile(currentNote.title, value),
       keyboardType: TextInputType.multiline,
       expands: true,
       maxLines: null,
@@ -61,20 +61,39 @@ class _NoteViewState extends State<NoteView> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(currentNote.title),
+                  Text(
+                    currentNote.title,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.w500,
+                        ),
+                  ),
                   ToggleButton(
                     checked: showView,
-                    onChanged: (newValue) => setState(() {
-                      showView = !showView;
-                    }),
+                    onChanged: (newValue) {
+                      ref
+                          .read(noteProvider.notifier)
+                          .readNote(currentNote.title);
+                      setState(() {
+                        showView = newValue;
+                      });
+                    },
                     child: showView
-                        ? const Text('Edit file')
-                        : const Text('View file'),
+                        ? const Text('Edit Note')
+                        : const Text('View Note'),
                   )
                 ],
               ),
             ),
             Expanded(child: mainContent),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              color: AppColors.primaryColor.withOpacity(0.5),
+              width: double.infinity,
+              child: Text(
+                "last modified  ${currentNote.formattedModifiedAtDate}",
+                textAlign: TextAlign.end,
+              ),
+            )
           ],
         ),
       ),

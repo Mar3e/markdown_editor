@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:markdown_editor/core/providers/dialog_provider.dart';
 
 class Info {
-  static Future<String?> showTextDialog(BuildContext context) async {
+  static Future<String?> showTextInputDialog(BuildContext context) async {
     return showDialog<String>(
       context: context,
       builder: (context) {

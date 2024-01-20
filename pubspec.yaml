@@ -38,6 +38,7 @@ dependencies:
   fluent_ui: ^4.8.5
   window_manager: ^0.3.7
   flutter_riverpod: ^2.4.9
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:

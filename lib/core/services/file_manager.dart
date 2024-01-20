@@ -1,11 +1,11 @@
-import 'dart:io';
+import 'package:markdown_editor/models/note.dart';
 
 abstract class FileManager {
   void createFile(String title);
 
-  void findFile(String title);
+  Note readFile(String title);
 
-  void deleteFile(File file);
+  void deleteFile(String title);
 
-  void modifyFile(File file);
+  void modifyFile(String title, String content);
 }

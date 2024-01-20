@@ -1,5 +1,6 @@
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:markdown_editor/core/services/local_file_manager.dart';
 import 'package:markdown_editor/core/utils/colors.dart';
 import 'package:markdown_editor/widgets/files_view.dart';
 import 'package:markdown_editor/widgets/main_header.dart';
@@ -38,10 +39,10 @@ class MyApp extends StatelessWidget {
           color: AppColors.accentColor,
         ),
       ),
-      home: const ScaffoldPage(
+      home: ScaffoldPage(
           padding: EdgeInsets.zero,
-          header: MainHeader(),
-          content: Row(
+          header: MainHeader(fileManager: LocalFileManger()),
+          content: const Row(
             children: [
               FilesView(),
               NoteView(),
